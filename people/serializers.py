@@ -13,6 +13,7 @@ class StudentSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     date_added = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True, source="student_people.name")
+    people_id = serializers.CharField(read_only=True, source="student_people.id")
     
     class Meta:
         model = Student
@@ -22,6 +23,7 @@ class TeacherSerializer(serializers.ModelSerializer):
     id = serializers.CharField(read_only=True)
     date_added = serializers.CharField(read_only=True)
     name = serializers.CharField(read_only=True, source="teacher_people.name")
+    people_id = serializers.CharField(read_only=True, source="teacher_people.id")
     list_of_students = serializers.SerializerMethodField()
     
     class Meta:
@@ -29,7 +31,7 @@ class TeacherSerializer(serializers.ModelSerializer):
         fields = '__all__'
     
     def get_list_of_students(self, obj):
-        # returns the list teacher's students
+        # returns the list of teacher's students
         students_list = []
         teacher_students = TeacherStudents.objects.filter(teacher_students=obj)
         for teacher_student in teacher_students:
